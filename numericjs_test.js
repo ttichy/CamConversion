@@ -32,14 +32,14 @@ var numeric = require('numeric');
 var c1=0;
 var cn=0;
 
-var X = [1,2,3,4,5];	//define X points
-var Y = [2,3,5,6,7];	//define Y points
+var X = [0,1];	//define X points
+var Y = [0,2];	//define Y points
 
 //-----</INPUTS>----------------------------------------
 
 
 /**
- * [Am populate matrix rwo]
+ * [Am populate matrix row]
  * @param {int} m [1, 2 or 3 which row entry (each matrix row has three entries]
  * @param {int} r matrix row
  * @param {array} h array of hs (master position differences)
@@ -84,8 +84,6 @@ for (var i = 1; i < X.length; i++) {
 	deltaYj[i-1]=Y[i]-Y[i-1];
 }
 
-console.log(h);
-
 // need to have matrices in form AX=B, then can do
 // inv(A)*B=X
 
@@ -95,73 +93,98 @@ var cols = rows;
 
 var A = new Array();
 var B = new Array();
+var C = new Array();
 
+if(rows>0) {
+    for (var row = 0; row < rows; row++) {
 
-
-for (var row = 0; row < rows; row++) {
-
-    //create a new row and fill with zeroes
+        //create a new row and fill with zeroes
     
-    A[row] = Array.apply(null, new Array(cols)).map(Number.prototype.valueOf, 0);
+        A[row] = Array.apply(null, new Array(cols)).map(Number.prototype.valueOf, 0);
 
     
-    // which column to start in
-    var startCol = row - 1;
-    var stopCol = startCol + 3;
+        // which column to start in
+        var startCol = row - 1;
+        var stopCol = startCol + 3;
     
-    //special cases for first and last row
+        //special cases for first and last row
 
-    if (startCol < 0) {
-        stopCol = 2;
-        startCol = 0;
+        if (startCol < 0) {
+            stopCol = 2;
+            startCol = 0;
+        }
+
+        if (stopCol > rows)
+            stopCol = startCol + 2;
+
+        if (rows == 1)
+            stopCol = 1;
+
+        for (var col = startCol; col < stopCol; col++) {
+            A[row][col] = Am(col-row+2 , row, h);
+        }
+
+        B[row] = new Array();
+        B[row][0] = Bm(row, h, deltaYj);
+
+
+    };
+
+    var Ainv = numeric.inv(A);
+    C = numeric.dot(Ainv, B);
+
+    
+    var C1 = [c1];
+    var CN = [cn];
+    
+    C.unshift(C1);
+    C.push(CN);
+    
+    
+    console.log(A);
+    console.log(B);
+    console.log(C);
+    
+    //calculate the rest of coefficients
+    
+    var d = [];
+    var a = [];
+    var b = [];
+    for (var i = 0; i < X.length - 1; i++) {
+        d[i] = (C[i + 1] - C[i]) / (3 * h[i]);
+        b[i] = deltaYj[i] / h[i] - C[i][0] * h[i] - d[i] * Math.pow(h[i], 2);
+        a[i] = Y[i];
     }
 
-    if (stopCol > rows)
-        stopCol = startCol + 2;
+    console.log(a);
+    console.log(b);
+    console.log(d);
 
-    if (rows == 1)
-        stopCol = 1;
+} else {
+    A = [
+        [1, X[0], Math.pow(X[0], 2), Math.pow(X[0], 3)],
+        [1, X[1], Math.pow(X[1], 2), Math.pow(X[1], 3)],
+        [0, 1, 2 * X[0], 3 * X[0]],
+        [0, 1, 2 * X[1], 3 * X[1]]
+    ];
 
-    for (var col = startCol; col < stopCol; col++) {
-        A[row][col] = Am(col-row+2 , row, h);
-    }
+    B = [
+        [Y[0]],
+        [Y[1]],
+        [c1],
+        [cn]
+    ];
 
-    B[row] = new Array();
-    B[row][0] = Bm(row, h, deltaYj);
+    var Ainv = numeric.inv(A);
+    C = numeric.dot(Ainv, B);
 
-
-};
-
-var Ainv = numeric.inv(A);
-var C = numeric.dot(Ainv, B);
-
-// C contains the middle c coefficients, need to add c1 and cn
-
-var C1 = [c1];
-var CN = [cn];
-
-C.unshift(C1);
-C.push(CN);
-
-console.log(A);
-console.log(B);
-console.log(C);
-
-//calculate the rest of coefficients
-
-var d = [];
-var a = [];
-var b = [];
-for (var i = 0; i < X.length-1; i++) {
-    d[i] = (C[i + 1] - C[i]) / (3 * h[i]);
-    b[i] = deltaYj[i] / h[i] - C[i][0] * h[i] - d[i] * Math.pow(h[i], 2);
-    a[i] = Y[i];
+    console.log(C);
 }
 
 
-console.log(a);
-console.log(b);
-console.log(d);
+
+
+
 
 console.log("end");
 
