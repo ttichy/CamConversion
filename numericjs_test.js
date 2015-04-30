@@ -32,8 +32,8 @@ var numeric = require('numeric');
 var c1=0;
 var cn=0;
 
-var X = [1,2,3];	//define X points
-var Y = [2,3,5];	//define Y points
+var X = [1,2,3,4,5];	//define X points
+var Y = [2,3,5,6,7];	//define Y points
 
 //-----</INPUTS>----------------------------------------
 
@@ -110,10 +110,8 @@ for (var row = 0; row < rows; row++) {
     var stopCol = startCol + 3;
     
     //special cases for first and last row
-    var startM = 1;
-    var stopM = 2;
+
     if (startCol < 0) {
-        startM = 1;
         stopCol = 2;
         startCol = 0;
     }
@@ -125,7 +123,7 @@ for (var row = 0; row < rows; row++) {
         stopCol = 1;
 
     for (var col = startCol; col < stopCol; col++) {
-        A[row][col] = Am(col-row+1+startM , row, h);
+        A[row][col] = Am(col-row+2 , row, h);
     }
 
     B[row] = new Array();
