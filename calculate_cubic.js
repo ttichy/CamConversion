@@ -1,6 +1,6 @@
 
 var numeric = require('numeric');
-"use strict";
+
 
 /**
  *  INPUTS:
@@ -20,9 +20,11 @@ var numeric = require('numeric');
  * 
  */
 
+
+
 // the type of cubic interpolation that is used is called 'clamped'
 exports.CalculateCubic = function(X,Y,s0,sf){
-
+	"use strict";
 
 	//-----<INPUTS>---------------------------------------
 
@@ -36,6 +38,7 @@ exports.CalculateCubic = function(X,Y,s0,sf){
 	//-----</INPUTS>----------------------------------------
 
 
+	debugger;
 
 
 	// data checks
@@ -113,7 +116,6 @@ exports.CalculateCubic = function(X,Y,s0,sf){
 	var B = new Array();
 	var C = new Array();
 
-	    	debugger;
 
 	for (var row = 0; row < rows; row++) {
 
@@ -187,5 +189,6 @@ exports.CalculateCubic = function(X,Y,s0,sf){
 };
 
 
-
+// debugger;
+// var result = CalculateCubic([0,2],[1,4],0,0);
 
