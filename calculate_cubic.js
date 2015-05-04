@@ -3,26 +3,12 @@ var numeric = require('numeric');
 
 
 /**
- *  INPUTS:
- *
- *  s0 .. initial slope
- *  sf .. final slope
- *  
- *  X.... array of x values
- *  Y.... array of y values
- *  T.....array of types (linear=0, cubic=1)
- *
- *
- * OUTPUT:
- * a,b,c,d coefficients for each interval [xn-1,xn] that correspond to x0, v0, a0, j in the position formula
- *
- * x = x0 + v0*t+1/2 *a0*t^2 * 1/6 *j*t^3
- * 
+ * [CalculateCubic Calculates coefficients for an array of X and Y values using cubic splines]
+ * @param {double Array} X  [array of X values]
+ * @param {double Array} Y  [array of Y values]
+ * @param {double} s0 [initial slope]
+ * @param {double} sf [final slope]
  */
-
-
-
-// the type of cubic interpolation that is used is called 'clamped'
 exports.CalculateCubic = function(X,Y,s0,sf){
 	"use strict";
 
@@ -33,18 +19,20 @@ exports.CalculateCubic = function(X,Y,s0,sf){
 
 	// var X = [1,2];	//define X points
 	// var Y = [2,4];	//define Y points
-	// var T = [1];    // type - linear or cubic ( one less than points)
-
 	//-----</INPUTS>----------------------------------------
 
 
-	debugger;
-
 
 	// data checks
+	if(X.constructor != Array || Y.constructor != Array)
+		throw new Error("X and Y must be arrays");
+
 	if(X.length != Y.length) {
 		throw new Error("Matrices must have the same length");
 	}
+
+	if(X.length==1)
+		throw new Error ("Cannot interpolate a single point");
 
 	/**
 	 * [Am populate matrix row]
