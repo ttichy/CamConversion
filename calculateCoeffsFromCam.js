@@ -50,6 +50,11 @@ exports.CalculateCoeffsFromCam = function(X,Y,T, s0,sf){
 		if(T[currentRow-1]==0)
 		{
 
+			//calculate the linear segment first, cuz need final slope
+			var linRes = linear.CalculateLinear(X.slice(currentRow-1,currentRow+1), Y.slice(currentRow-1,currentRow+1));
+
+			finalSlope=linRes[0][1];
+
 			//need to calculate all previous cubic rows
 			var cubicSegs=currentRow-cubicStart;
 			if(cubicSegs > 0){
@@ -60,9 +65,10 @@ exports.CalculateCoeffsFromCam = function(X,Y,T, s0,sf){
 				result = result.concat(coeffs3);
 			}
 
-			var res = linear.CalculateLinear(X.slice(currentRow-1,currentRow+1), Y.slice(currentRow-1,currentRow+1));
-			initSlope=res[0][1];
-			result = result.concat(res);
+			
+			initSlope=linRes[0][1];
+
+			result = result.concat(linRes);
 			cubicStart=currentRow;
 		}
 

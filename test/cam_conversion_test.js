@@ -90,11 +90,18 @@ describe("Linear interpolation", function() {
 describe("Full table calculations", function() {
 	it('Should have the validated results', function() {
 		var result = table.CalculateCoeffsFromCam([0,1,3,5,7],[0,2,4,5,8],[1,1,0,1],0,0);
+		// console.log(result);
 		result.should.eql(
-			[ [ 0, 0, 3.5, -1.5 ],
-			  [ 2, 2.5, -1, 0.125 ],
+			[ [ 0,
+			    4.440892098500626e-16,
+			    3.583333333333333,
+			    -1.5833333333333333 ],
+			  [ 2,
+			    2.4166666666666665,
+			    -1.1666666666666667,
+			    0.22916666666666666 ],
 			  [ 4, 0.5, 0, 0 ],
-			  [ 5, 0.5, 1.75, -0.625 ] ]
+			  [ 5, 0.5, 1.5, -0.5 ] ]
 			  );
 	});
 });
