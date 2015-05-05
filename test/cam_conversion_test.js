@@ -3,6 +3,7 @@ var should = require('should');
 
 var cubic = require("../calculate_cubic.js");
 var linear = require("../calculate_linear.js");
+var table = require("../calculateCoeffsFromCam.js")
 
 
 describe('Cubic spline calculations', function(){
@@ -82,4 +83,18 @@ describe("Linear interpolation", function() {
 			result.should.eql([ [ 2, 1,0,0 ], [ 3, 0.5,0,0 ] ]);
 		});	
 	});	
+});
+
+
+
+describe("Full table calculations", function() {
+	it('Should have the validated results', function() {
+		var result = table.CalculateCoeffsFromCam([0,1,3,5,7],[0,2,4,5,8],[1,1,0,1],0,0);
+		result.should.eql(
+			[ [ 0, 0, 3.5, -1.5 ],
+			  [ 2, 2.5, -1, 0.125 ],
+			  [ 2.5, 0.5, 0, 0 ],
+			  [ 5, 0.5, 1.75, -0.625 ] ]
+			  );
+	});
 });
