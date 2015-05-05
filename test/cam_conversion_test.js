@@ -69,7 +69,7 @@ describe("Linear interpolation", function() {
 	});
 	
 	describe('should solve points (0,2)(2,4),(4,4)', function() {
-		it('Result should be [ [ 2, 1 ], [ 4, 0 ] ]', function() {
+		it('Result should be [ [ 2, 1,0,0 ], [ 4, 0,0,0 ]]', function() {
 			// console.log(result);		
 			var result=linear.CalculateLinear([0,2,4],[2,4,4]);
 			result.should.eql([ [ 2, 1,0,0 ], [ 4, 0,0,0 ] ]);
@@ -77,10 +77,10 @@ describe("Linear interpolation", function() {
 	});
 
 	describe('should solve points (0,2)(2,4),(4,5)', function() {
-		it('Result should be [ [ 2, 1 ], [ 3, 0.5 ] ]', function() {
+		it('Result should be [ [ 2, 1,0,0 ], [ 4, 0.5,0,0 ]]', function() {
 			// console.log(result);		
 			var result=linear.CalculateLinear([0,2,4],[2,4,5]);
-			result.should.eql([ [ 2, 1,0,0 ], [ 3, 0.5,0,0 ] ]);
+			result.should.eql([ [ 2, 1,0,0 ], [ 4, 0.5,0,0 ] ]);
 		});	
 	});	
 });
@@ -93,7 +93,7 @@ describe("Full table calculations", function() {
 		result.should.eql(
 			[ [ 0, 0, 3.5, -1.5 ],
 			  [ 2, 2.5, -1, 0.125 ],
-			  [ 2.5, 0.5, 0, 0 ],
+			  [ 4, 0.5, 0, 0 ],
 			  [ 5, 0.5, 1.75, -0.625 ] ]
 			  );
 	});

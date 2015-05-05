@@ -23,7 +23,7 @@ exports.CalculateLinear = function(X,Y){
 
 	for (var i = 1; i < X.length; i++) {
 		var slope=(Y[i]-Y[i-1]) / (X[i]-X[i-1]);
-		var icpt=Y[i]-slope*X[i];
+		var icpt=Y[i-1];
 		A[i-1] = [icpt,slope,0,0];
 	};
 
