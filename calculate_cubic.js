@@ -154,20 +154,21 @@ exports.CalculateCubic = function(X,Y,s0,sf){
 	var dd = [];
 
 
+	var result=[];
+
 	for (var i = 0; i < X.length-1; i++) {
 	    aa[i] = Y[i];
 		bb[i] = d[i] - (h[i]/6)*(2*mk[i]+mk[i+1]);
 		cc[i] = mk[i]/2;
 	    dd[i] = (mk[i+1]-mk[i])/(6*h[i]);
+
+	    result[i]=[];
+	    result[i]=[aa[i],bb[i],cc[i],dd[i]];
 	}
 
-	// console.log(aa);
-	// console.log(bb);
-	// console.log(cc);
-	// console.log(dd);
 
 
-	return([aa,bb,cc,dd]);
+	return(result);
 
 
 
